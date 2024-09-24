@@ -3,11 +3,11 @@ import Messages from "./Messages";
 // import TiMessages from "react-icons/ti";
 
 const MessageContainer = () => {
-  const noChatSelected = false;
+  const noChatSelected = true;
   return (
     <div className="md:min-w-[450px] flex flex-col">
       {noChatSelected ? (
-        NoChatSelected
+        <NoChatSelected />
       ) : (
         <>
           <div className="bg-slate-500 px-4 py-2 mb-2">

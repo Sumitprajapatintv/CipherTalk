@@ -64,7 +64,7 @@ export const login = async (req, res) => {
       userName: user?.userName,
       profilePic: user?.profilePic,
     });
-  } catch (error) {}
+  } catch (error) { }
 };
 
 export const logout = (req, res) => {
