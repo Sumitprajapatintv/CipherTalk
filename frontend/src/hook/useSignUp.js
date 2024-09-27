@@ -11,9 +11,7 @@ const useSignup = () => {
     console.log("FullName", fullName)
     const success = handleInputErrors({ fullName, username, password, confirmPassword, gender });
     if (!success) return;
-    // console.log("data", data);
     setLoading(true);
-    // console.log("data", data);
     try {
       const res = await fetch("/api/auth/signup", {
         method: "POST",
