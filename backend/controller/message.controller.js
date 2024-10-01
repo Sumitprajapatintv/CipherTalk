@@ -1,6 +1,7 @@
 // import { Promise } from "mongoose";
 import Conversation from "../model/conversation.model.js";
 import Message from "../model/message.model.js";
+import { getReceiverSocketId, io } from "../socket/socket.js";
 
 export const sendMessage = async (req, res) => {
   try {
@@ -32,6 +33,13 @@ export const sendMessage = async (req, res) => {
 
     Promise.all([conversation.save(), newMessage.save()]);
 
+    const receiverSocketId = getReceiverSocketId(reciverId);
+    if (receiverSocketId) {
+      // io.to(<socket_id>).emit() used to send events to specific client
+      io.to(receiverSocketId).emit("newMessage", newMessage);
+    }
+
+
     res.status(200).json(newMessage);
   } catch (error) {
     res.status(500).json({ error: `Inter Server Error : ${error.message}` });
@@ -39,20 +47,20 @@ export const sendMessage = async (req, res) => {
 };
 export const getMessage = async (req, res) => {
   try {
-    const { id: userTochatId } = req.params;
-
+    const { id: userToChatId } = req.params;
     const senderId = req.user._id;
 
-    let conversation = await Conversation.findOne({
-      participants: { $all: [senderId, userTochatId] },
-    }).populate("message");
+    const conversation = await Conversation.findOne({
+      participants: { $all: [senderId, userToChatId] },
+    }).populate("message"); // NOT REFERENCE BUT ACTUAL MESSAGES
 
-    if (!conversation) {
-      res.status(200).json([]);
-    }
+    if (!conversation) return res.status(200).json([]);
 
-    res.status(200).json(conversation.message);
+    const messages = conversation.message;
+
+    res.status(200).json(messages);
   } catch (error) {
-    res.status(500).json({ error: `Inter Server Error : ${error.message}` });
+    console.log("Error in getMessages controller: ", error.message);
+    res.status(500).json({ error: "Internal server error" });
   }
 };
