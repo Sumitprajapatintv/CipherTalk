@@ -45,6 +45,7 @@ export const sendMessage = async (req, res) => {
     res.status(500).json({ error: `Inter Server Error : ${error.message}` });
   }
 };
+
 export const getMessage = async (req, res) => {
   try {
     const { id: userToChatId } = req.params;
@@ -52,7 +53,7 @@ export const getMessage = async (req, res) => {
 
     const conversation = await Conversation.findOne({
       participants: { $all: [senderId, userToChatId] },
-    }).populate("message"); // NOT REFERENCE BUT ACTUAL MESSAGES
+    }).populate("message");
 
     if (!conversation) return res.status(200).json([]);
 
