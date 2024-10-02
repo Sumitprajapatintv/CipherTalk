@@ -23,8 +23,7 @@ app.use("/api/message", messageRoutes);
 
 app.use("/api/users", userRoutes);
 
-app.use(express.static(path.join(__dirname, "/frontend/dist")));
-
+app.use(express.static(__dirname + '/public'));
 app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname, "frontend", "dist", "index.html"));
 });
