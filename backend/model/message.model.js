@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import { type } from "os";
 
 const messageSchema = mongoose.Schema(
   {
@@ -16,6 +17,10 @@ const messageSchema = mongoose.Schema(
       type: String,
       required: true,
     },
+    createdAt: {
+      type: Date,
+      default: Date.now()
+    }
   },
   { timestamp: true }
 );

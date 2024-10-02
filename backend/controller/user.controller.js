@@ -6,7 +6,8 @@ export const getAllUserForSideBar = async (req, res) => {
 
     const filteredUser = await User.find({
       _id: { $ne: loggedinUserId },
-    }).select("-password");
+
+    }).sort({ _id: -1 }).select("-password");
 
     res.status(200).json(filteredUser);
   } catch (error) {
