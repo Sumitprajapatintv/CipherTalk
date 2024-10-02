@@ -6,11 +6,12 @@ import messageRoutes from "./routes/message.routes.js";
 import userRoutes from "./routes/user.routes.js";
 import connectToMongoDB from "./db/connectToMongoDB.js";
 import cookieParser from "cookie-parser";
-const PORT = process.env.PORT || 5000;
 import { app, server } from "./socket/socket.js";
 import path from "path";
 
 const __dirname = path.resolve();
+
+const PORT = process.env.PORT || 5000;
 
 app.use(express.json());
 
